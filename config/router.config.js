@@ -1,4 +1,29 @@
 export default [
+  {
+    path: '/installation',
+    component: '../layouts/InstallLayout',
+    routes: [
+      {
+        path: '/installation',
+        redirect: '/installation/welcome',
+      },
+      {
+        path: '/installation/welcome',
+        name: 'installation.welcome',
+        component: './Installation/Welcome',
+      },
+      {
+        path: '/installation/config',
+        name: 'installation.config',
+        component: './Installation/Config',
+      },
+      {
+        path: '/installation/migration',
+        name: 'installation.migration',
+        component: './Installation/Migration',
+      },
+    ],
+  },
   // user
   {
     path: '/user',
