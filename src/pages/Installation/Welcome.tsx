@@ -10,7 +10,7 @@ class WelcomePage extends React.PureComponent<RouteProps> {
 
   render() {
     return (
-      <Card>
+      <Card title="欢迎">
         <p>欢迎使用Forum，我们需要您数据库的一些信息用于安装论坛程序。</p>
 
         <Button type="primary" onClick={this.onStartClick}>
