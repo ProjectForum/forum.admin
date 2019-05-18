@@ -18,14 +18,14 @@ interface IProps extends RouteProps {
   migrating: loading.effects['installation/migrateDatabase'],
 }))
 class MigrationPage extends React.PureComponent<IProps> {
-  startMigrate() {
+  initDatabase() {
     this.props.dispatch({
-      type: 'installation/migrateDatabase',
+      type: 'installation/initDatabase',
     });
   }
 
   componentDidMount() {
-    this.startMigrate();
+    this.initDatabase();
   }
 
   render() {
@@ -68,7 +68,11 @@ class MigrationPage extends React.PureComponent<IProps> {
                   value={migrationStore.migrateLog}
                 />
 
-                <Button className={styles.button} type="primary">
+                <Button
+                  className={styles.button}
+                  type="primary"
+                  onClick={() => router.push('/installation/setting')}
+                >
                   下一步
                 </Button>
               </div>

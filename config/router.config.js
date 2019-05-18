@@ -22,6 +22,16 @@ export default [
         name: 'installation.migration',
         component: './Installation/Migration',
       },
+      {
+        path: '/installation/setting',
+        name: 'installation.setting',
+        component: './Installation/Setting',
+      },
+      {
+        path: '/installation/success',
+        name: 'installation.success',
+        component: './Installation/Success',
+      },
     ],
   },
   // user

@@ -28,18 +28,12 @@ const model: IModel<IInstallationState> = {
 
   effects: {
     *setConfig({ payload }, { call, put }) {
-      const response: IResult = yield call(InstallationService.setConfig, payload);
-      if (response.code === 1) {
-        yield put(routerRedux.push('/installation/migration'));
-      } else {
-        message.error(response.message);
-      }
+      yield call(InstallationService.setConfig, payload);
+      yield put(routerRedux.push('/installation/migration'));
     },
-    *migrateDatabase({ payload }, { call, put }) {
+    *initDatabase({ payload }, { call, put }) {
       try {
-        const response: IResult<{ output: string }> = yield call(
-          InstallationService.migrateDatabase
-        );
+        const response: IResult<{ output: string }> = yield call(InstallationService.initDatabase);
         yield put({
           type: 'setMigrateLog',
           payload: response.payload.output,
@@ -63,21 +57,35 @@ const model: IModel<IInstallationState> = {
         }
       }
     },
+    *setSetting({ payload }, { call, put }) {
+      yield call(InstallationService.setSetting, payload);
+      yield put(routerRedux.push('/installation/success'));
+    },
   },
 
   reducers: {
-    setMigrateLog(state: IInstallationState, { payload }) {
-      state.migration.migrateLog = payload;
-      state.migration.queryFailed = false;
-      return state;
+    setMigrateLog(state: IInstallationState, { payload }): IInstallationState {
+      return {
+        ...state,
+        migration: {
+          migrateLog: payload,
+          queryFailed: false,
+          queryFailedMessage: '',
+        },
+      };
     },
     setMigrationQueryFailed(
       state: IInstallationState,
       { payload: { status, message: failedMessage } }
-    ) {
-      state.migration.queryFailed = status;
-      state.migration.queryFailedMessage = failedMessage;
-      return state;
+    ): IInstallationState {
+      return {
+        ...state,
+        migration: {
+          migrateLog: '',
+          queryFailed: status,
+          queryFailedMessage: failedMessage,
+        },
+      };
     },
   },
 };

@@ -70,7 +70,6 @@ class ConfigPage extends React.PureComponent<IProps> {
             </Form.Item>
             <Form.Item label="密码">
               {getFieldDecorator('dbPassword', {
-                rules: [{ required: true, message: '数据库密码不能为空' }],
                 initialValue: 'root',
               })(<Input placeholder="您的数据库密码" />)}
             </Form.Item>

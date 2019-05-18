@@ -5,13 +5,25 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import router from 'umi/router';
+/* eslint-disable import/no-unresolved */
+import { ResultCodes } from './resultCode';
 
 /**
- * 异常处理程序
+ * 全局异常处理程序
+ * @param {import('umi-request').ResponseError<import('@/types').IResult>} error
  */
 const errorHandler = error => {
-  const { response = {} } = error;
+  const { response, data } = error;
   const { status } = response;
+
+  if (data.code === ResultCodes.CannotReinstall) {
+    notification.error({
+      message: '安装失败',
+      description: data.message,
+    });
+    router.replace('/');
+    throw error;
+  }
 
   if (status === 401) {
     notification.error({
